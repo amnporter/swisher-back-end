@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Item } from './interfaces/item.interface';
 import { CreateItemDto } from './dto/create-item.dto';
 import { Model } from 'mongoose';
