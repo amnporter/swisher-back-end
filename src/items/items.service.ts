@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { Item } from './interfaces/item.interface';
 import { CreateItemDto } from './dto/create-item.dto';
 import { Model } from 'mongoose';
@@ -11,7 +11,7 @@ export class ItemsService {
   constructor(
     @InjectModel('Item') private readonly itemModel: Model<Item>) {
 
-    this.itemModel.insertMany(data);
+    this.replenishData();
   }
 
   async getItems(): Promise<Item[]> {
@@ -30,9 +30,9 @@ export class ItemsService {
   async replenishData(): Promise<Item[]> {
     return new Promise((resolve, reject) => {
       this.itemModel.deleteMany({}, err => {
-        if (err) throw new HttpException('Item not found', HttpStatus.NOT_FOUND);
+        if (err) Logger.error(err);
 
-        resolve (this.itemModel.insertMany(data as Item[]));
+        resolve(this.itemModel.insertMany(data as Item[]));
       })
     })
   }
